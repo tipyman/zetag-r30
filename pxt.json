@@ -1,6 +1,6 @@
 {
     "name": "ZETag-R30",
-    "description": "An extension to easily contorol ZETag module from Micro:bit",
+    "description": "An extension to easily control ZETag module from micro:bit",
     "dependencies": {
         "core": "*",
         "radio": "*",
