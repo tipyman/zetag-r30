@@ -7,6 +7,7 @@
  * ZETag block Ver3.0
  */
 
+//% weight=100 color=#32CD32 icon="\uf482" block="ZETag R3.0"
 namespace ZETag_R30 {
     const txBuffer = pins.createBuffer(1);
 
