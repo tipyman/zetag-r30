@@ -139,8 +139,8 @@ namespace ZETag_R30 {
         // メインバージョン(4バイト目）、サブバージョン（5バイト目）で回答
         //　この関数からは上位4ビットがメイン、下位4ビットがサブバージョンを示す
 
-        const response = Send_ZETag_command([0xff, 0x00, 0x02, 0x02, 0x03])
-        return (((response[4] & 0xf) << 4) + (response[5] & 0xf)) & 0xff;
+        const response3 = Send_ZETag_command([0xff, 0x00, 0x02, 0x02, 0x03])
+        return (((response3[4] & 0xf) << 4) + (response3[5] & 0xf)) & 0xff;
     }
 
     /**
@@ -156,9 +156,9 @@ namespace ZETag_R30 {
         // Query FF 00 02 44 45
 
         if (mode === OP_Mode.Test) {
-            const response = Send_ZETag_command([0xff, 0x00, 0x05, 0x44, 0x01, 0x00, 0x01, 0x4a])
+            const response4 = Send_ZETag_command([0xff, 0x00, 0x05, 0x44, 0x01, 0x00, 0x01, 0x4a])
         } else {
-            const response = Send_ZETag_command([0xff, 0x00, 0x03, 0x44, 0x00, 0x46])
+            const response5 = Send_ZETag_command([0xff, 0x00, 0x03, 0x44, 0x00, 0x46])
             mode = OP_Mode.Normal
         }
     }
@@ -178,7 +178,7 @@ namespace ZETag_R30 {
         // FF 00 03 41 10 53; 出力8dB設定
         // FF+00+03+41=0x143 -> 0x43
         // Query FF 00 02 41 42
-        const response4 = Send_ZETag_command([0xff, 0x00, 0x03, 0x41, txPowerData, (0x43 + txPowerData) % 256])
+        const response42 = Send_ZETag_command([0xff, 0x00, 0x03, 0x41, txPowerData, (0x43 + txPowerData) % 256])
     }
 
     /**
@@ -197,7 +197,7 @@ namespace ZETag_R30 {
         } else if (chSpace >= 200) {
             chSpace = 200
         }
-        const response3 = Send_ZETag_command([0xff, 0x00, 0x03, 0xf0, chSpace, (0xf2 + chSpace) % 256]);
+        const response32 = Send_ZETag_command([0xff, 0x00, 0x03, 0xf0, chSpace, (0xf2 + chSpace) % 256]);
     }
 
     /**
@@ -245,7 +245,7 @@ namespace ZETag_R30 {
 
         txArray = txArray.slice(0, 11 + chNum); // omit redundant data
 
-        const response5 = Send_ZETag_command(txArray)
+        const response52 = Send_ZETag_command(txArray)
     }
 
     /**
@@ -262,7 +262,7 @@ namespace ZETag_R30 {
         if (txMode === Mode.FSK4) {   // 4FSK
             const response6 = Send_ZETag_command([0xff, 0x00, 0x03, 0x42, 0x01, 0x45])
         } else {                    // 8FSK
-            const response6 = Send_ZETag_command([0xff, 0x00, 0x03, 0x42, 0x10, 0x54])
+            const response62 = Send_ZETag_command([0xff, 0x00, 0x03, 0x42, 0x10, 0x54])
         }
     }
 
