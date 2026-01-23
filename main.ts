@@ -126,6 +126,43 @@ namespace ZETag_R30 {
     }
 
     // --- 既存ロジック（そのまま利用） ---
+
+    /**
+     * get Protocol Version
+    */
+    //% blockId=Get_Protocol_Version block="Get Protocol Version"
+    //% subcategory="Other"
+    //% weight=95 blockGap=8
+    export function Get_Protocol_Version (): number {
+        // FF 00 02 02 03 /* バージョンの取得 */ 
+        // Query FF 00 04 02 01 04 0A とか　FF 00 04 02 01 00 06
+        // メインバージョン(4バイト目）、サブバージョン（5バイト目）で回答
+        //　この関数からは上位4ビットがメイン、下位4ビットがサブバージョンを示す
+
+        const response = Send_ZETag_command([0xff, 0x00, 0x02, 0x02, 0x03])
+        return (((response[4] & 0xf) << 4) + (response[5] & 0xf)) & 0xff;
+    }
+
+    /**
+     * set tx power
+    */
+    //% blockId=Set_Operating_Mode block="Set Operating Mode %mode"
+    //% subcategory="Other"
+    //% weight=95 blockGap=8
+    //% mode.min=0 mode.max=1 mode.defl=0
+    export function Set_Operating_Mode(mode: OP_Mode): void {
+        // FF 00 03 44 00 46 ; normal mode (mode = 0)
+        // FF 00 05 44 01 00 01 4A ; test mode (mode = 1)
+        // Query FF 00 02 44 45
+
+        if (mode === OP_Mode.Test) {
+            const response = Send_ZETag_command([0xff, 0x00, 0x05, 0x44, 0x01, 0x00, 0x01, 0x4a])
+        } else {
+            const response = Send_ZETag_command([0xff, 0x00, 0x03, 0x44, 0x00, 0x46])
+            mode = OP_Mode.Normal
+        }
+    }
+      
     /**
      * set tx power
      */
@@ -225,7 +262,7 @@ namespace ZETag_R30 {
         if (txMode === Mode.FSK4) {   // 4FSK
             const response6 = Send_ZETag_command([0xff, 0x00, 0x03, 0x42, 0x01, 0x45])
         } else {                    // 8FSK
-            const response62 = Send_ZETag_command([0xff, 0x00, 0x03, 0x42, 0x10, 0x54])
+            const response6 = Send_ZETag_command([0xff, 0x00, 0x03, 0x42, 0x10, 0x54])
         }
     }
 
@@ -267,6 +304,13 @@ namespace ZETag_R30 {
         FSK4 = 0,
         //% block="8FSK"
         FSK8 = 1
+    }
+
+    export enum OP_Mode {
+        //% block="Normal"
+        Normal = 0,
+        //% block="Test"
+        Test = 1
     }
 
     // --- 5項目をまとめた設定ブロック（完成版） ---
